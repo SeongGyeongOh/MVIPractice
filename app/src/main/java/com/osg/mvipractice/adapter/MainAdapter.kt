@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.osg.mvipractice.R
 import com.osg.mvipractice.data.User
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_layout.view.*
 
 class MainAdapter(private val users:ArrayList<User>) : RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
 

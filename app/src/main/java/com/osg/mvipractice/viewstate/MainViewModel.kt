@@ -1,5 +1,7 @@
 package com.osg.mvipractice.viewstate
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.osg.mvipractice.data.MainRepository
@@ -11,15 +13,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import kotlin.Exception
 
 
 @ExperimentalCoroutinesApi
 class MainViewModel (private val repository: MainRepository): ViewModel(){
     val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
-    private val _state = MutableStateFlow<MainState>(MainState.Idle)
-    val state : StateFlow<MainState> get()= _state
+    private val _state = MutableLiveData<MainState>()
+    val state : LiveData<MainState> get()= _state
     init {
         handleIntent()
     }
