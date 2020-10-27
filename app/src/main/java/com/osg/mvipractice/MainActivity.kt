@@ -22,7 +22,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-//따라쓴 코드 : https://medium.com/@abhiappmobiledeveloper/android-mvi-reactive-architecture-pattern-74e5f1300a87
+//참조 코드 : https://medium.com/@abhiappmobiledeveloper/android-mvi-reactive-architecture-pattern-74e5f1300a87
 @ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
@@ -39,7 +39,13 @@ class MainActivity : AppCompatActivity() {
         setupClicks()
     }
 
-
+    private fun setupClicks(){
+        buttonFetchUser.setOnClickListener{
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.FetchUser)
+            }
+        }
+    }
 
     private fun setupUI(){
         recyclerView.layoutManager=LinearLayoutManager(this)
@@ -52,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupViewModel(){
         mainViewModel = ViewModelProvider(this, ViewModelFactory(ApiHelperImpl(RetrofitBuilder.apiService))).get(MainViewModel::class.java)
     }
+
 
     private fun observeViewModel(){
         lifecycleScope.launch {
@@ -86,13 +93,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
         adapter.notifyDataSetChanged()
-    }
-
-    private fun setupClicks(){
-        buttonFetchUser.setOnClickListener{
-            lifecycleScope.launch {
-                mainViewModel.userIntent.send(MainIntent.FetchUser)
-            }
-        }
     }
 }
